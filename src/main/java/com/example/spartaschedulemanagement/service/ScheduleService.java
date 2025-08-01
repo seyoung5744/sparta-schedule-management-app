@@ -3,6 +3,7 @@ package com.example.spartaschedulemanagement.service;
 import com.example.spartaschedulemanagement.dto.CreateScheduleRequest;
 import com.example.spartaschedulemanagement.dto.ScheduleResponse;
 import com.example.spartaschedulemanagement.entity.Schedule;
+import com.example.spartaschedulemanagement.exception.ScheduleNotFoundException;
 import com.example.spartaschedulemanagement.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,12 @@ public class ScheduleService {
         return schedules.stream()
                 .map(ScheduleResponse::of)
                 .toList();
+    }
+
+    public ScheduleResponse getScheduleById(Long id) {
+        Schedule schedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new ScheduleNotFoundException(id));
+        return ScheduleResponse.of(schedule);
     }
 
     private List<Schedule> getAllScheduleByWriter(String writer) {
