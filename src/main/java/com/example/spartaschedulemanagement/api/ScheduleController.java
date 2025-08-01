@@ -1,6 +1,7 @@
 package com.example.spartaschedulemanagement.api;
 
 import com.example.spartaschedulemanagement.dto.CreateScheduleRequest;
+import com.example.spartaschedulemanagement.dto.EditScheduleTitleAndWriterRequest;
 import com.example.spartaschedulemanagement.dto.ScheduleResponse;
 import com.example.spartaschedulemanagement.exception.ScheduleNotFoundException;
 import com.example.spartaschedulemanagement.service.ScheduleService;
@@ -37,6 +38,17 @@ public class ScheduleController {
             scheduleResponse = scheduleService.getScheduleById(scheduleId);
         } catch (ScheduleNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(scheduleResponse, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{scheduleId}")
+    public ResponseEntity<ScheduleResponse> editScheduleTitleAndWriter(@PathVariable Long scheduleId, @RequestBody EditScheduleTitleAndWriterRequest request) {
+        ScheduleResponse scheduleResponse;
+        try {
+            scheduleResponse = scheduleService.editScheduleTitleAndWriter(scheduleId, request);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(scheduleResponse, HttpStatus.OK);
     }

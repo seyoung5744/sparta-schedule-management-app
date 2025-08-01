@@ -1,8 +1,10 @@
 package com.example.spartaschedulemanagement.service;
 
 import com.example.spartaschedulemanagement.dto.CreateScheduleRequest;
+import com.example.spartaschedulemanagement.dto.EditScheduleTitleAndWriterRequest;
 import com.example.spartaschedulemanagement.dto.ScheduleResponse;
 import com.example.spartaschedulemanagement.entity.Schedule;
+import com.example.spartaschedulemanagement.exception.InvalidPasswordException;
 import com.example.spartaschedulemanagement.exception.ScheduleNotFoundException;
 import com.example.spartaschedulemanagement.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +34,32 @@ public class ScheduleService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public ScheduleResponse getScheduleById(Long id) {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new ScheduleNotFoundException(id));
+        return ScheduleResponse.of(schedule);
+    }
+
+    @Transactional
+    public ScheduleResponse editScheduleTitleAndWriter(Long id, EditScheduleTitleAndWriterRequest request) {
+
+        if (isEmptyPassword(request)) {
+            throw new IllegalArgumentException();
+        }
+
+        if (isEmptyRequest(request)) {
+            throw new IllegalArgumentException();
+        }
+
+        Schedule schedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new ScheduleNotFoundException(id));
+
+        if (isInvalidPassword(request, schedule)) {
+            throw new InvalidPasswordException();
+        }
+
+        schedule.updateTitleAndWriter(request.getTitle(), request.getWriter());
         return ScheduleResponse.of(schedule);
     }
 
@@ -45,4 +70,17 @@ public class ScheduleService {
 
         return scheduleRepository.findAllByWriterOrderByModifiedAtDesc(writer);
     }
+
+    private static boolean isEmptyPassword(EditScheduleTitleAndWriterRequest request) {
+        return false == StringUtils.hasText(request.getPassword());
+    }
+
+    private boolean isEmptyRequest(EditScheduleTitleAndWriterRequest request) {
+        return !StringUtils.hasText(request.getTitle()) && !StringUtils.hasText(request.getWriter());
+    }
+
+    private static boolean isInvalidPassword(EditScheduleTitleAndWriterRequest request, Schedule schedule) {
+        return !request.getPassword().equals(schedule.getPassword());
+    }
+
 }
