@@ -63,6 +63,11 @@ public class ScheduleService {
         return ScheduleResponse.of(schedule);
     }
 
+    @Transactional
+    public void deleteScheduleById(Long id) {
+        scheduleRepository.deleteById(id);
+    }
+
     private List<Schedule> getAllScheduleByWriter(String writer) {
         if (false == StringUtils.hasText(writer)) {
             return scheduleRepository.findAllOrderByModifiedAtDesc();
