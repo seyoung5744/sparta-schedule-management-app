@@ -42,4 +42,9 @@ public class Schedule extends BaseEntity {
                 .password(password)
                 .build();
     }
+
+    public void updateTitleAndWriter(String title, String writer) {
+        this.title = title;
+        this.writer = writer;
+    }
 }
