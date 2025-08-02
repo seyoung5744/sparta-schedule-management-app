@@ -3,9 +3,12 @@ package com.example.spartaschedulemanagement.service;
 import com.example.spartaschedulemanagement.dto.CreateScheduleRequest;
 import com.example.spartaschedulemanagement.dto.EditScheduleTitleAndWriterRequest;
 import com.example.spartaschedulemanagement.dto.ScheduleResponse;
+import com.example.spartaschedulemanagement.dto.ScheduleWithCommentsResponse;
+import com.example.spartaschedulemanagement.entity.Comment;
 import com.example.spartaschedulemanagement.entity.Schedule;
 import com.example.spartaschedulemanagement.exception.InvalidPasswordException;
 import com.example.spartaschedulemanagement.exception.ScheduleNotFoundException;
+import com.example.spartaschedulemanagement.repository.CommentRepository;
 import com.example.spartaschedulemanagement.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public ScheduleResponse createSchedule(final CreateScheduleRequest request) {
@@ -35,10 +39,13 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public ScheduleResponse getScheduleById(Long id) {
+    public ScheduleWithCommentsResponse getScheduleById(Long id) {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new ScheduleNotFoundException(id));
-        return ScheduleResponse.of(schedule);
+
+        List<Comment> comments = commentRepository.findAllByScheduleId(schedule.getId());
+
+        return ScheduleWithCommentsResponse.of(schedule, comments);
     }
 
     @Transactional
