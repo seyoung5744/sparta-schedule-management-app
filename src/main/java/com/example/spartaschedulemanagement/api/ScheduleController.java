@@ -32,14 +32,14 @@ public class ScheduleController {
     }
 
     @GetMapping("/{scheduleId}")
-    private ResponseEntity<ScheduleResponse> getSchedule(@PathVariable Long scheduleId) {
-        ScheduleResponse scheduleResponse;
+    private ResponseEntity<ScheduleWithCommentsResponse> getSchedule(@PathVariable Long scheduleId) {
+        ScheduleWithCommentsResponse scheduleWithCommentsResponse;
         try {
-            scheduleResponse = scheduleService.getScheduleById(scheduleId);
+            scheduleWithCommentsResponse = scheduleService.getScheduleById(scheduleId);
         } catch (ScheduleNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(scheduleResponse, HttpStatus.OK);
+        return new ResponseEntity<>(scheduleWithCommentsResponse, HttpStatus.OK);
     }
 
     @PatchMapping("/{scheduleId}")
@@ -64,4 +64,5 @@ public class ScheduleController {
         CommentResponse commentResponse = commentService.addComment(scheduleId, request);
         return new ResponseEntity<>(commentResponse, HttpStatus.OK);
     }
+
 }
