@@ -1,9 +1,8 @@
 package com.example.spartaschedulemanagement.api;
 
-import com.example.spartaschedulemanagement.dto.CreateScheduleRequest;
-import com.example.spartaschedulemanagement.dto.EditScheduleTitleAndWriterRequest;
-import com.example.spartaschedulemanagement.dto.ScheduleResponse;
+import com.example.spartaschedulemanagement.dto.*;
 import com.example.spartaschedulemanagement.exception.ScheduleNotFoundException;
+import com.example.spartaschedulemanagement.service.CommentService;
 import com.example.spartaschedulemanagement.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,7 @@ import java.util.List;
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
+    private final CommentService commentService;
 
     @PostMapping
     public ResponseEntity<ScheduleResponse> createSchedule(@RequestBody CreateScheduleRequest request) {
@@ -59,4 +59,9 @@ public class ScheduleController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/{scheduleId}/comments")
+    public ResponseEntity<CommentResponse> addComment(@PathVariable Long scheduleId, @RequestBody CreateCommentRequest request) {
+        CommentResponse commentResponse = commentService.addComment(scheduleId, request);
+        return new ResponseEntity<>(commentResponse, HttpStatus.OK);
+    }
 }

@@ -28,6 +28,9 @@ public class Schedule extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private int commentCount;
+
     @Builder
     private Schedule(String title, String contents, String writer, String password) {
         this.title = title;
@@ -48,5 +51,14 @@ public class Schedule extends BaseEntity {
     public void updateTitleAndWriter(String title, String writer) {
         this.title = title;
         this.writer = writer;
+    }
+
+    public boolean hasMaxCommentCount() {
+        final int maxCommentCount = 10;
+        return commentCount >= maxCommentCount;
+    }
+
+    public void increaseCommentCount() {
+        commentCount += 1;
     }
 }
