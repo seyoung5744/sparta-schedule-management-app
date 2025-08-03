@@ -7,6 +7,7 @@ import com.example.spartaschedulemanagement.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ScheduleController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponse> createSchedule(@RequestBody CreateScheduleRequest request) {
+    public ResponseEntity<ScheduleResponse> createSchedule(@Validated @RequestBody CreateScheduleRequest request) {
         ScheduleResponse scheduleResponse = scheduleService.createSchedule(request);
         return new ResponseEntity<>(scheduleResponse, HttpStatus.CREATED);
     }
@@ -43,7 +44,7 @@ public class ScheduleController {
     }
 
     @PatchMapping("/{scheduleId}")
-    public ResponseEntity<ScheduleResponse> editScheduleTitleAndWriter(@PathVariable Long scheduleId, @RequestBody EditScheduleTitleAndWriterRequest request) {
+    public ResponseEntity<ScheduleResponse> editScheduleTitleAndWriter(@PathVariable Long scheduleId, @Validated @RequestBody EditScheduleTitleAndWriterRequest request) {
         ScheduleResponse scheduleResponse;
         try {
             scheduleResponse = scheduleService.editScheduleTitleAndWriter(scheduleId, request);
@@ -60,7 +61,7 @@ public class ScheduleController {
     }
 
     @PostMapping("/{scheduleId}/comments")
-    public ResponseEntity<CommentResponse> addComment(@PathVariable Long scheduleId, @RequestBody CreateCommentRequest request) {
+    public ResponseEntity<CommentResponse> addComment(@PathVariable Long scheduleId, @Validated @RequestBody CreateCommentRequest request) {
         CommentResponse commentResponse = commentService.addComment(scheduleId, request);
         return new ResponseEntity<>(commentResponse, HttpStatus.OK);
     }

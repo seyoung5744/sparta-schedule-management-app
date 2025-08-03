@@ -1,9 +1,7 @@
 package com.example.spartaschedulemanagement.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,10 +15,16 @@ public class Comment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long scheduleId;
 
+    @Column(nullable = false)
     private String contents;
+
+    @Column(nullable = false)
     private String writer;
+
+    @Column(nullable = false)
     private String password;
 
     @Builder
