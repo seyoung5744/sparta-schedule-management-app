@@ -1,8 +1,11 @@
 package com.example.spartaschedulemanagement.exception;
 
-public class CommentLimitExceededException extends RuntimeException {
+import com.example.spartaschedulemanagement.exception.common.CommonErrorCode;
+import com.example.spartaschedulemanagement.exception.common.GlobalException;
 
-    public CommentLimitExceededException() {
-        super("댓글은 10개 이하까지만 작성 가능합니다.");
+public class CommentLimitExceededException extends GlobalException {
+
+    public CommentLimitExceededException(CommonErrorCode errorCode) {
+        super(errorCode);
     }
 }

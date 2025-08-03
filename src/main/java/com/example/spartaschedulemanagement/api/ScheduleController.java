@@ -1,7 +1,6 @@
 package com.example.spartaschedulemanagement.api;
 
 import com.example.spartaschedulemanagement.dto.*;
-import com.example.spartaschedulemanagement.exception.ScheduleNotFoundException;
 import com.example.spartaschedulemanagement.service.CommentService;
 import com.example.spartaschedulemanagement.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -34,23 +33,13 @@ public class ScheduleController {
 
     @GetMapping("/{scheduleId}")
     private ResponseEntity<ScheduleWithCommentsResponse> getSchedule(@PathVariable Long scheduleId) {
-        ScheduleWithCommentsResponse scheduleWithCommentsResponse;
-        try {
-            scheduleWithCommentsResponse = scheduleService.getScheduleById(scheduleId);
-        } catch (ScheduleNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        ScheduleWithCommentsResponse scheduleWithCommentsResponse = scheduleService.getScheduleById(scheduleId);
         return new ResponseEntity<>(scheduleWithCommentsResponse, HttpStatus.OK);
     }
 
     @PatchMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResponse> editScheduleTitleAndWriter(@PathVariable Long scheduleId, @Validated @RequestBody EditScheduleTitleAndWriterRequest request) {
-        ScheduleResponse scheduleResponse;
-        try {
-            scheduleResponse = scheduleService.editScheduleTitleAndWriter(scheduleId, request);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        ScheduleResponse scheduleResponse = scheduleService.editScheduleTitleAndWriter(scheduleId, request);
         return new ResponseEntity<>(scheduleResponse, HttpStatus.OK);
     }
 
