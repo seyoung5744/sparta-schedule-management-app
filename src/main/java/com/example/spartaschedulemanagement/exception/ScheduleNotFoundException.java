@@ -1,8 +1,11 @@
 package com.example.spartaschedulemanagement.exception;
 
-public class ScheduleNotFoundException extends RuntimeException {
+import com.example.spartaschedulemanagement.exception.common.CommonErrorCode;
+import com.example.spartaschedulemanagement.exception.common.GlobalException;
 
-    public ScheduleNotFoundException(Long id) {
-        super(id + "는 존재하지 않은 일정입니다.");
+public class ScheduleNotFoundException extends GlobalException {
+
+    public ScheduleNotFoundException(CommonErrorCode errorCode) {
+        super(errorCode);
     }
 }

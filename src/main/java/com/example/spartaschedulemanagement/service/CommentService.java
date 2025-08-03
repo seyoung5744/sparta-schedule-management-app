@@ -5,6 +5,7 @@ import com.example.spartaschedulemanagement.dto.CreateCommentRequest;
 import com.example.spartaschedulemanagement.entity.Comment;
 import com.example.spartaschedulemanagement.entity.Schedule;
 import com.example.spartaschedulemanagement.exception.CommentLimitExceededException;
+import com.example.spartaschedulemanagement.exception.common.CommonErrorCode;
 import com.example.spartaschedulemanagement.exception.ScheduleNotFoundException;
 import com.example.spartaschedulemanagement.repository.CommentRepository;
 import com.example.spartaschedulemanagement.repository.ScheduleRepository;
@@ -23,10 +24,10 @@ public class CommentService {
     public CommentResponse addComment(final Long scheduleId, final CreateCommentRequest request) {
 
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new ScheduleNotFoundException(scheduleId));
+                .orElseThrow(() -> new ScheduleNotFoundException(CommonErrorCode.SCHEDULE_NOT_FOUND));
 
         if (schedule.hasMaxCommentCount()) {
-            throw new CommentLimitExceededException();
+            throw new CommentLimitExceededException(CommonErrorCode.COMMENT_LIMIT_EXCEEDED);
         }
 
         schedule.increaseCommentCount();

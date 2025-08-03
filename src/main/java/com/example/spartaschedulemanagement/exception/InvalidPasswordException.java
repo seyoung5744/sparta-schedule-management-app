@@ -1,8 +1,11 @@
 package com.example.spartaschedulemanagement.exception;
 
-public class InvalidPasswordException extends RuntimeException {
+import com.example.spartaschedulemanagement.exception.common.CommonErrorCode;
+import com.example.spartaschedulemanagement.exception.common.GlobalException;
 
-    public InvalidPasswordException() {
-        super("비밀번호가 일치하지 않습니다.");
+public class InvalidPasswordException extends GlobalException {
+
+    public InvalidPasswordException(CommonErrorCode errorCode) {
+        super(errorCode);
     }
 }
