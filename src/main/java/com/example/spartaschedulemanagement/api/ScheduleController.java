@@ -2,6 +2,7 @@ package com.example.spartaschedulemanagement.api;
 
 import com.example.spartaschedulemanagement.api.request.CreateCommentRequest;
 import com.example.spartaschedulemanagement.api.request.CreateScheduleRequest;
+import com.example.spartaschedulemanagement.api.request.DeleteScheduleRequest;
 import com.example.spartaschedulemanagement.api.request.EditScheduleTitleAndWriterRequest;
 import com.example.spartaschedulemanagement.api.response.CommentResponse;
 import com.example.spartaschedulemanagement.api.response.ScheduleResponse;
@@ -49,8 +50,8 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId) {
-        scheduleService.deleteScheduleById(scheduleId);
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId, @Validated @RequestBody DeleteScheduleRequest request) {
+        scheduleService.deleteScheduleById(scheduleId, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
