@@ -1,14 +1,15 @@
 package com.example.spartaschedulemanagement.service;
 
 import com.example.spartaschedulemanagement.api.request.CreateScheduleRequest;
+import com.example.spartaschedulemanagement.api.request.DeleteScheduleRequest;
 import com.example.spartaschedulemanagement.api.request.EditScheduleTitleAndWriterRequest;
 import com.example.spartaschedulemanagement.api.response.ScheduleResponse;
 import com.example.spartaschedulemanagement.api.response.ScheduleWithCommentsResponse;
 import com.example.spartaschedulemanagement.entity.Comment;
 import com.example.spartaschedulemanagement.entity.Schedule;
-import com.example.spartaschedulemanagement.exception.common.CommonErrorCode;
 import com.example.spartaschedulemanagement.exception.InvalidPasswordException;
 import com.example.spartaschedulemanagement.exception.ScheduleNotFoundException;
+import com.example.spartaschedulemanagement.exception.common.CommonErrorCode;
 import com.example.spartaschedulemanagement.repository.CommentRepository;
 import com.example.spartaschedulemanagement.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,7 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new ScheduleNotFoundException(CommonErrorCode.SCHEDULE_NOT_FOUND));
 
-        if (isInvalidPassword(request, schedule)) {
+        if (isInvalidPassword(request.getPassword(), schedule.getPassword())) {
             throw new InvalidPasswordException(CommonErrorCode.INVALID_PASSWORD);
         }
 
@@ -64,7 +65,13 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void deleteScheduleById(Long id) {
+    public void deleteScheduleById(Long id, DeleteScheduleRequest request) {
+        Schedule schedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new ScheduleNotFoundException(CommonErrorCode.SCHEDULE_NOT_FOUND));
+
+        if (isInvalidPassword(request.getPassword(), schedule.getPassword())) {
+            throw new InvalidPasswordException(CommonErrorCode.INVALID_PASSWORD);
+        }
         scheduleRepository.deleteById(id);
     }
 
@@ -76,8 +83,8 @@ public class ScheduleService {
         return scheduleRepository.findAllByWriterOrderByModifiedAtDesc(writer);
     }
 
-    private boolean isInvalidPassword(EditScheduleTitleAndWriterRequest request, Schedule schedule) {
-        return !request.getPassword().equals(schedule.getPassword());
+    private boolean isInvalidPassword(String requestPassword, String password) {
+        return !password.equals(requestPassword);
     }
 
 }
