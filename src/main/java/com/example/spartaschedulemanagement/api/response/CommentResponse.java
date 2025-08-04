@@ -1,4 +1,4 @@
-package com.example.spartaschedulemanagement.dto;
+package com.example.spartaschedulemanagement.api.response;
 
 import com.example.spartaschedulemanagement.entity.Comment;
 import lombok.Builder;

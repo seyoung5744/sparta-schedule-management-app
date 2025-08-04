@@ -1,7 +1,7 @@
 package com.example.spartaschedulemanagement.service;
 
-import com.example.spartaschedulemanagement.dto.CommentResponse;
-import com.example.spartaschedulemanagement.dto.CreateCommentRequest;
+import com.example.spartaschedulemanagement.api.response.CommentResponse;
+import com.example.spartaschedulemanagement.api.request.CreateCommentRequest;
 import com.example.spartaschedulemanagement.entity.Comment;
 import com.example.spartaschedulemanagement.entity.Schedule;
 import com.example.spartaschedulemanagement.exception.CommentLimitExceededException;

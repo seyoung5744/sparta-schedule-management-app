@@ -1,4 +1,4 @@
-package com.example.spartaschedulemanagement.dto;
+package com.example.spartaschedulemanagement.api.request;
 
 import com.example.spartaschedulemanagement.entity.Comment;
 import jakarta.validation.constraints.NotBlank;

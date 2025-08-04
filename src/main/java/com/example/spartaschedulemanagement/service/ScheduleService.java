@@ -1,9 +1,9 @@
 package com.example.spartaschedulemanagement.service;
 
-import com.example.spartaschedulemanagement.dto.CreateScheduleRequest;
-import com.example.spartaschedulemanagement.dto.EditScheduleTitleAndWriterRequest;
-import com.example.spartaschedulemanagement.dto.ScheduleResponse;
-import com.example.spartaschedulemanagement.dto.ScheduleWithCommentsResponse;
+import com.example.spartaschedulemanagement.api.request.CreateScheduleRequest;
+import com.example.spartaschedulemanagement.api.request.EditScheduleTitleAndWriterRequest;
+import com.example.spartaschedulemanagement.api.response.ScheduleResponse;
+import com.example.spartaschedulemanagement.api.response.ScheduleWithCommentsResponse;
 import com.example.spartaschedulemanagement.entity.Comment;
 import com.example.spartaschedulemanagement.entity.Schedule;
 import com.example.spartaschedulemanagement.exception.common.CommonErrorCode;

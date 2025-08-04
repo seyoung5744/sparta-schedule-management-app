@@ -1,6 +1,11 @@
 package com.example.spartaschedulemanagement.api;
 
-import com.example.spartaschedulemanagement.dto.*;
+import com.example.spartaschedulemanagement.api.request.CreateCommentRequest;
+import com.example.spartaschedulemanagement.api.request.CreateScheduleRequest;
+import com.example.spartaschedulemanagement.api.request.EditScheduleTitleAndWriterRequest;
+import com.example.spartaschedulemanagement.api.response.CommentResponse;
+import com.example.spartaschedulemanagement.api.response.ScheduleResponse;
+import com.example.spartaschedulemanagement.api.response.ScheduleWithCommentsResponse;
 import com.example.spartaschedulemanagement.service.CommentService;
 import com.example.spartaschedulemanagement.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
